@@ -19,7 +19,7 @@ use dektrium\user\traits\ModuleTrait;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
+use yii\mongodb\ActiveRecord;
 use yii\db\Query;
 use yii\web\Application as WebApplication;
 use yii\web\IdentityInterface;

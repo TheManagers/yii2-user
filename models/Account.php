@@ -18,7 +18,7 @@ use dektrium\user\Module;
 use dektrium\user\traits\ModuleTrait;
 use Yii;
 use yii\authclient\ClientInterface as BaseClientInterface;
-use yii\db\ActiveRecord;
+use yii\mongodb\ActiveRecord;
 use yii\helpers\Url;
 
 /**

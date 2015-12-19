@@ -13,7 +13,7 @@ namespace dektrium\user\models;
 
 use dektrium\user\traits\ModuleTrait;
 use Yii;
-use yii\db\ActiveRecord;
+use yii\mongodb\ActiveRecord;
 
 /**
  * This is the model class for table "profile".
