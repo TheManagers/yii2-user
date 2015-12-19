@@ -58,7 +58,7 @@ class Account extends ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne($this->module->modelMap['User'], ['id' => 'user_id']);
+        return $this->hasOne($this->module->modelMap['User'], ['_id' => 'user_id']);
     }
 
     /**
@@ -228,5 +228,10 @@ class Account extends ActiveRecord
         }
 
         return static::$finder;
+    }
+    
+    public function attributes()
+    {
+        return ['_id', 'user_id', 'provider', 'client_id', 'data', 'code', 'created_at', 'email', 'username'];
     }
 }

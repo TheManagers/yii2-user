@@ -112,4 +112,9 @@ class Token extends ActiveRecord
     {
         return ['user_id', 'code', 'type'];
     }
+    
+    public function attributes()
+    {
+        return ['_id', 'user_id', 'code', 'type', 'created_at'];
+    }
 }

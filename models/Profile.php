@@ -92,4 +92,19 @@ class Profile extends ActiveRecord
     {
         return $this->hasOne($this->module->modelMap['User'], ['id' => 'user_id']);
     }
+    
+    public function attributes()
+    {
+        return [
+            '_id', 
+            'user_id',
+            'name',
+            'public_email',
+            'gravatar_email',
+            'gravatar_id',
+            'location',
+            'website',
+            'bio'
+        ];
+    }
 }
