@@ -123,7 +123,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getProfile()
     {
-        return $this->hasOne($this->module->modelMap['Profile'], ['user_id' => 'id']);
+        return $this->hasOne($this->module->modelMap['Profile'], ['user_id' => '_id']);
     }
 
     /**
@@ -140,7 +140,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function getAccounts()
     {
         $connected = [];
-        $accounts  = $this->hasMany($this->module->modelMap['Account'], ['user_id' => 'id'])->all();
+        $accounts  = $this->hasMany($this->module->modelMap['Account'], ['user_id' => '_id'])->all();
 
         /** @var Account $account */
         foreach ($accounts as $account) {
@@ -153,7 +153,7 @@ class User extends ActiveRecord implements IdentityInterface
     /** @inheritdoc */
     public function getId()
     {
-        return $this->getAttribute('id');
+        return $this->getAttribute('_id');
     }
 
     /** @inheritdoc */
@@ -295,7 +295,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function attemptConfirmation($code)
     {
-        $token = $this->finder->findTokenByParams($this->id, $code, Token::TYPE_CONFIRMATION);
+        $token = $this->finder->findTokenByParams($this->_id, $code, Token::TYPE_CONFIRMATION);
 
         if ($token instanceof Token && !$token->isExpired) {
             $token->delete();
@@ -331,7 +331,7 @@ class User extends ActiveRecord implements IdentityInterface
 
         /** @var Token $token */
         $token = $this->finder->findToken([
-            'user_id' => $this->id,
+            'user_id' => $this->_id,
             'code'    => $code,
         ])->andWhere(['in', 'type', [Token::TYPE_CONFIRM_NEW_EMAIL, Token::TYPE_CONFIRM_OLD_EMAIL]])->one();
 
@@ -420,7 +420,7 @@ class User extends ActiveRecord implements IdentityInterface
         while (!$this->validate(['username'])) {
             $row = (new Query())
                 ->from('{{%user}}')
-                ->select('MAX(id) as id')
+                ->select('MAX(_id) as id')
                 ->one();
 
             $this->username = 'user' . ++$row['id'];
@@ -474,5 +474,27 @@ class User extends ActiveRecord implements IdentityInterface
     public static function findIdentityByAccessToken($token, $type = null)
     {
         throw new NotSupportedException('Method "' . __CLASS__ . '::' . __METHOD__ . '" is not implemented.');
+    }
+    
+    public function attributes() {
+        return [
+            '_id',
+            'username',
+            'email',
+            'password_hash',
+            'auth_key',
+            'confirmation_token',
+            'confirmation_sent_at',
+            'confirmed_at',
+            'unconfirmed_email',
+            'recovery_token',
+            'recovery_sent_at',
+            'blocked_at',
+            'registered_from',
+            'logged_in_from',
+            'logged_in_at',
+            'created_at',
+            'updated_at'
+        ];
     }
 }
